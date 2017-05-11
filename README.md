@@ -4,8 +4,8 @@
 This is, by far, the worst way to make an image in Dr. Racket, but it's also a lot of fun.
 Drop a .png or .jpg in to the images folder. run the app.js by navigating to the project folder, and running
 
-sh
-```
+
+```sh
 npm install;
 node app.js;
 ```
