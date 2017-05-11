@@ -1,0 +1,17 @@
+{
+  "name": "dr-racket-bitmap",
+  "version": "1.0.0",
+  "description": "convert images to dr rack for canvas printing",
+  "main": "app.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Richard Stanley",
+  "license": "MIT",
+  "dependencies": {
+    "jimp": "^0.2.27",
+    "lodash": "^4.17.4",
+    "node-fetch": "^1.6.3",
+    "prompt": "^1.0.0"
+  }
+}
