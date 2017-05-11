@@ -38,11 +38,11 @@ prompt.get(['image_Name', 'multiplier'], function (err, result) {
 	let allColors = [];
 	function readImage() {
 		return new Promise((f, r)=> {
-			Jimp.read(result.image_Name, function (err, image) {
+			Jimp.read("./images/" + result.image_Name, function (err, image) {
 				h = image.bitmap.height;
 				w = image.bitmap.width;
 				console.log("Heigth: " + h + "\tWidth: " + w);
-				console.log("Processing... this could take a while.");
+				console.log("Processing... this could take a while.");	
 					// do stuff with the image (if no exception)
 					//console.log(image.bitmap.height);
 				image.scan(0, 0, image.bitmap.width, image.bitmap.height, function (x, y, idx) {
@@ -66,7 +66,10 @@ prompt.get(['image_Name', 'multiplier'], function (err, result) {
 					// rgba values run from 0 - 255
 					// e.g. this.bitmap.data[idx] = 0; // removes red from this pixel
 					//console.log(image.getPixelColor(x, y));
+					
 				});
+				
+				
 			});
 		});
 	}
