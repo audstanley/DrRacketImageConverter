@@ -6,6 +6,7 @@ Drop a .png or .jpg in to the images folder. run the app.js by navigating to the
 
 sh
 ```
+npm install;
 node app.js;
 ```
 
