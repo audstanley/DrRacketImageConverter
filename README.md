@@ -14,7 +14,8 @@ You will be prompted to input the name of the image that you want to convert to 
 Then you will be prompted to give a multiplier in order to blow up the image.  If you want to keep the pixel size the same as the orginal image
 then your multiplier would be: 1.
 
-Open Dr. Racket, select Language => Add Teachpack => Advanced Student => draw.rkt
+####options:
+ 1. Open Dr. Racket, select Language => Add Teachpack => Advanced Student => draw.rkt
 then paste your code from the dr_racket_code.txt into the Dr. Racket Application.
-
+ 2. or, you can open the draw.rkt file, and paste the same code and run it.
 **Then run it.**
