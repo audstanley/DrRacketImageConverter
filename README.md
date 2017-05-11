@@ -18,4 +18,5 @@ then your multiplier would be: 1.
  1. Open Dr. Racket, select Language => Add Teachpack => Advanced Student => draw.rkt
 then paste your code from the dr_racket_code.txt into the Dr. Racket Application.
  2. or, you can open the draw.rkt file, and paste the same code and run it.
+ 
 **Then run it.**
