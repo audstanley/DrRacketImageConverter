@@ -23,7 +23,7 @@ let w = "";
 let re = /<tr><td><span style="background-color: #([a-f0-9]{6})"><span class="hspace">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<\/span><\/span><span class="hspace">&nbsp;<\/span>(\w+)<\/td><\/tr>/g;
 
 prompt.start();
-prompt.get(['image_Name', 'multiplier'], function (err, result) {
+prompt.get(['image_Name', 'multiplier', 'circleOrSquare'], function (err, result) {
 	function getColors() {
 		return new Promise((f, r)=> {
 			fetch('https://docs.racket-lang.org/draw/color-database___.html').then(d => d.text()).then(b => {
@@ -43,29 +43,16 @@ prompt.get(['image_Name', 'multiplier'], function (err, result) {
 				w = image.bitmap.width;
 				console.log("Heigth: " + h + "\tWidth: " + w);
 				console.log("Processing... this could take a while.");	
-					// do stuff with the image (if no exception)
-					//console.log(image.bitmap.height);
+				
 				image.scan(0, 0, image.bitmap.width, image.bitmap.height, function (x, y, idx) {
-					// x, y is the position of this pixel on the image
-					// idx is the position start position of this rgba tuple in the bitmap Buffer
-					// this is the image
-					//process.stdout.write(".");
+
 					var red   = this.bitmap.data[ idx + 0 ];
 					var green = this.bitmap.data[ idx + 1 ];
 					var blue  = this.bitmap.data[ idx + 2 ];
-					var alpha = this.bitmap.data[ idx + 3 ];
-					
-					
-					
-					//let obj = {'r':red, 'g':green, 'b':blue};
+					//var alpha = this.bitmap.data[ idx + 3 ];
 					let pushed = allColors.push({'hex': rgbHex(red, green, blue), 'dec': parseInt(rgbHex(red, green, blue), 16), 'x':x, 'y':y});
-					//let pushed = allColors.push({'dec': parseInt(rgbHex(red, green, blue), 16), 'x':x, 'y':y});
 					if(err) reject(err);
 					else { f(pushed); }
-					//console.log("\"" + red + "," + green + "," + blue + "\"");
-					// rgba values run from 0 - 255
-					// e.g. this.bitmap.data[idx] = 0; // removes red from this pixel
-					//console.log(image.getPixelColor(x, y));
 					
 				});
 				
@@ -96,7 +83,13 @@ prompt.get(['image_Name', 'multiplier'], function (err, result) {
 			function closest2(ele) {
 				let i = 0;
 				let cur = {'name':colorList[0].name, 'hex':colorList[0].hex};
-				let str = "(draw-solid-rect (make-posn " + parseInt(ele.x) * m + " " + parseInt(ele.y) * m + ") " + m + " " + m + " `";
+				if(result.circleOrSquare === 'circle') {
+					var str = "(draw-circle (make-posn " + parseInt(m/2 + (parseInt(ele.x) * m))+ " " + parseInt(m/2 + (parseInt(ele.y) * m)) + ") " + parseInt(m/2) + " `";
+				}
+				else if(result.circleOrSquare === 'square') {
+					var str = "(draw-solid-rect (make-posn " + parseInt(ele.x) * m + " " + parseInt(ele.y) * m + ") " +  m + " " + m + " `";
+				}
+				
 				let loc = ""
 				while(i < colorList.length - 1) {
 					if(colorList[i].hex === ele.hex) {
@@ -139,7 +132,7 @@ prompt.get(['image_Name', 'multiplier'], function (err, result) {
 				if(err) throw err;
 				console.log("The File has been saved");
 				console.log("Multiplier: " + m);
-				console.log("New Heigth: " + h + "\tNew Width: " + w);
+				console.log("New Heigth: " + h * m + "\tNew Width: " + w * m);
 			})
 		
 		})
