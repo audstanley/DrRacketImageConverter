@@ -150,7 +150,6 @@ prompt.get(['image_Name', 'multiplier', 'circleOrSquare'], function (err, result
 					}
 					++i;
 				}
-				//console.log("Color picked: " + cur.name + ",\t\tAt: " + i + ",\tHex: " + cur.hex);
 				return str + cur.name + ")";
 			}
 			
@@ -170,6 +169,3 @@ prompt.get(['image_Name', 'multiplier', 'circleOrSquare'], function (err, result
 		})
 	})
 });
-
-
-
