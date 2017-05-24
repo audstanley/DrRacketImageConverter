@@ -26,10 +26,18 @@ prompt.start();
 prompt.get(['image_Name', 'multiplier', 'circleOrSquare'], function (err, result) {
 	function getColors() {
 		return new Promise((f, r)=> {
-			fetch('https://docs.racket-lang.org/draw/color-database___.html').then(d => d.text()).then(b => {
+			fetch('https://docs.racket-lang.org/draw/color-database___.html')
+			.then(d => d.text())
+			.then(b => {
 				let dataArr = b.match(re);
 				let a = [];
-				while(m = re.exec(dataArr)) { a.push({ hex:m[1], dec: parseInt(m[1], 16), name:m[2] }) }
+				while(m = re.exec(dataArr)) { 
+					a.push({ 
+						hex:m[1], 
+						dec: parseInt(m[1], 16), 
+						name:m[2] 
+					}
+				)}
 				f(a);
 			});
 		})
@@ -38,19 +46,17 @@ prompt.get(['image_Name', 'multiplier', 'circleOrSquare'], function (err, result
 	let allColors = [];
 	function readImage() {
 		return new Promise((f, r)=> {
-			Jimp.read("./images/" + result.image_Name, function (err, image) {
+			Jimp.read("./images/" + result.image_Name, (err, image) => {
 				h = image.bitmap.height;
 				w = image.bitmap.width;
 				console.log("Heigth: " + h + "\tWidth: " + w);
 				console.log("Processing... this could take a while.");	
-				
-				image.scan(0, 0, image.bitmap.width, image.bitmap.height, function (x, y, idx) {
-
+				image.scan(0, 0, image.bitmap.width, image.bitmap.height, (x, y, idx) => {
 					var red   = this.bitmap.data[ idx + 0 ];
 					var green = this.bitmap.data[ idx + 1 ];
 					var blue  = this.bitmap.data[ idx + 2 ];
-					//var alpha = this.bitmap.data[ idx + 3 ];
-					let pushed = allColors.push({'hex': rgbHex(red, green, blue), 'dec': parseInt(rgbHex(red, green, blue), 16), 'x':x, 'y':y});
+					let pushed = allColors
+						.push({'hex': rgbHex(red, green, blue), 'dec': parseInt(rgbHex(red, green, blue), 16), 'x':x, 'y':y});
 					if(err) reject(err);
 					else { f(pushed); }
 					
@@ -75,19 +81,37 @@ prompt.get(['image_Name', 'multiplier', 'circleOrSquare'], function (err, result
 					else hi = mid;
 				}
 				if(ele.dec - colorList[lo].dec <= colorList[hi].dec - ele.dec) {
-					return "(draw-solid-rect (make-posn " + parseInt(ele.x) * m + " " + parseInt(ele.y) * m + ") " + m + " " + m + " `" + colorList[lo].name + ")";
+					return "(draw-solid-rect (make-posn " 
+						+ parseInt(ele.x) * m 
+						+ " " + parseInt(ele.y) * m + ") " 
+						+ m + " " + m + " `" 
+						+ colorList[lo].name + ")";
 				}
-				else return "(draw-solid-rect (make-posn " + parseInt(ele.x) * m + " " + parseInt(ele.y) * m + ") " + m + " " + m + " `" + colorList[hi].name + ")";
+				else return "(draw-solid-rect (make-posn " 
+						+ parseInt(ele.x) * m 
+						+ " " + parseInt(ele.y) * m 
+						+ ") " 
+						+ m + " " + m + " `" 
+						+ colorList[hi].name + ")";
 			}
 			
 			function closest2(ele) {
 				let i = 0;
 				let cur = {'name':colorList[0].name, 'hex':colorList[0].hex};
 				if(result.circleOrSquare === 'circle') {
-					var str = "(draw-circle (make-posn " + parseInt(m/2 + (parseInt(ele.x) * m))+ " " + parseInt(m/2 + (parseInt(ele.y) * m)) + ") " + parseInt(m/2) + " `";
+					var str = "(draw-circle (make-posn " 
+						+ parseInt(m/2 + (parseInt(ele.x) * m))
+						+ " " + parseInt(m/2 + (parseInt(ele.y) * m)) 
+						+ ") " 
+						+ parseInt(m/2) + " `";
 				}
 				else if(result.circleOrSquare === 'square') {
-					var str = "(draw-solid-rect (make-posn " + parseInt(ele.x) * m + " " + parseInt(ele.y) * m + ") " +  m + " " + m + " `";
+					var str = "(draw-solid-rect (make-posn " 
+						+ parseInt(ele.x) * m 
+						+ " " 
+						+ parseInt(ele.y) * m 
+						+ ") " 
+						+  m + " " + m + " `";
 				}
 				
 				let loc = ""
@@ -97,9 +121,18 @@ prompt.get(['image_Name', 'multiplier', 'circleOrSquare'], function (err, result
 						loc = i;
 						break;
 					}
-					else if(Math.abs(parseInt(ele.hex.substr(0,2), 16) - parseInt(colorList[i].hex.substr(0,2), 16)) < Math.abs(parseInt(ele.hex.substr(0,2), 16) - parseInt(cur.hex.substr(0, 2), 16))) {
-						if(Math.abs(parseInt(ele.hex.substr(2,4), 16) - parseInt(colorList[i].hex.substr(2,4), 16)) < Math.abs(parseInt(ele.hex.substr(2,4), 16) - parseInt(cur.hex.substr(2, 4), 16))) {
-							if(Math.abs(parseInt(ele.hex.substr(4,6), 16) - parseInt(colorList[i].hex.substr(4,6), 16)) < Math.abs(parseInt(ele.hex.substr(4,6), 16) - parseInt(cur.hex.substr(4, 6), 16))) {
+					else if(Math.abs(parseInt(ele.hex.substr(0,2), 16) 
+								- parseInt(colorList[i].hex.substr(0,2), 16)) 
+								< Math.abs(parseInt(ele.hex.substr(0,2), 16) 
+								- parseInt(cur.hex.substr(0, 2), 16))) {
+						if(Math.abs(parseInt(ele.hex.substr(2,4), 16) 
+									- parseInt(colorList[i].hex.substr(2,4), 16)) 
+									< Math.abs(parseInt(ele.hex.substr(2,4), 16) 
+									- parseInt(cur.hex.substr(2, 4), 16))) {
+							if(Math.abs(parseInt(ele.hex.substr(4,6), 16) 
+										- parseInt(colorList[i].hex.substr(4,6), 16)) 
+										< Math.abs(parseInt(ele.hex.substr(4,6), 16) 
+										- parseInt(cur.hex.substr(4, 6), 16))) {
 								cur = {'name': colorList[i].name, 'hex':colorList[i].hex};
 								loc = i;
 							}
@@ -122,19 +155,20 @@ prompt.get(['image_Name', 'multiplier', 'circleOrSquare'], function (err, result
 			}
 			
 			
-			function format(e) {
-				return e;
-			}
-			
+			function format(e) { return e; }
+
 			let colorsOnly = _.uniqWith(allColors, _.isEqual);
-			out = "(start " + w*m + " " + h*m + ")\n" + allColors.map(closest2).map(format).join('\n')
+			out = "(start " 
+				+ w*m + " " + h*m 
+				+ ")\n" 
+				+ allColors.map(closest2).map(format).join('\n');
+
 			fs.writeFile('dr_racket_code.txt', out, (err)=> {
 				if(err) throw err;
 				console.log("The File has been saved");
 				console.log("Multiplier: " + m);
 				console.log("New Heigth: " + h * m + "\tNew Width: " + w * m);
 			})
-		
 		})
 	})
 });
