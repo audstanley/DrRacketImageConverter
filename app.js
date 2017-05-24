@@ -59,10 +59,7 @@ prompt.get(['image_Name', 'multiplier', 'circleOrSquare'], function (err, result
 						.push({'hex': rgbHex(red, green, blue), 'dec': parseInt(rgbHex(red, green, blue), 16), 'x':x, 'y':y});
 					if(err) reject(err);
 					else { f(pushed); }
-					
 				});
-				
-				
 			});
 		});
 	}
@@ -153,7 +150,6 @@ prompt.get(['image_Name', 'multiplier', 'circleOrSquare'], function (err, result
 				//console.log("Color picked: " + cur.name + ",\t\tAt: " + i + ",\tHex: " + cur.hex);
 				return str + cur.name + ")";
 			}
-			
 			
 			function format(e) { return e; }
 
