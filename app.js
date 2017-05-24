@@ -142,7 +142,10 @@ prompt.get(['image_Name', 'multiplier', 'circleOrSquare'], function (err, result
 						}
 					}
 					else if(Math.abs(ele.dec - colorList[i].dec) < Math.abs(ele.dec - cur)) {
-						cur = {'name': colorList[i].name, 'hex':colorList[i].hex};
+						cur = 	{
+									'name': colorList[i].name, 
+									'hex':colorList[i].hex
+								};
 						loc = i;
 					}
 					++i;
@@ -152,7 +155,6 @@ prompt.get(['image_Name', 'multiplier', 'circleOrSquare'], function (err, result
 			}
 			
 			function format(e) { return e; }
-
 			let colorsOnly = _.uniqWith(allColors, _.isEqual);
 			out = "(start " 
 				+ w*m + " " + h*m 
